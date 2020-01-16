@@ -23,8 +23,44 @@
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
+axios.get('https://api.github.com/users/msinnema33')
+    .then(e => {
+        //console.log('data: ', data);
+        const myInfo = e.data;
+        //console.log('User info: ', myInfo);
 
-const followersArray = [];
+        const cards = document.querySelector('.cards');
+        const card = createCard(myInfo);
+        cards.appendChild(card);
+    })
+
+
+const followersArray = [
+    'elijahdaniel',
+    'GuytonOriji',
+    'fireblastdaniel',
+    'shawnpatel96',
+    'rofstudios',
+];
+
+followersArray.forEach(user => {
+    axios.get(`https://api.github.com/users/${user}`)
+        .then(e => {
+            const card = createCard(e.data);
+            const cards = document.querySelector('.cards');
+            cards.appendChild(card);
+        })
+
+})
+
+
+
+const cards = document.querySelector('.cards');
+//console.log(cards);
+
+// followersArray.forEach(data => {
+//     cards.appendChild(createCard(data));
+// });
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -43,8 +79,51 @@ const followersArray = [];
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
+function createCard(data) {
+    const card = document.createElement('div');
+    const img = document.createElement('img');
+    const cardinfo = document.createElement('div');
+    const name = document.createElement('h3');
+    const uname = document.createElement('p');
+    const loc = document.createElement('p');
+    const prof = document.createElement('p');
+    const anchor = document.createElement('a');
+    const flwr = document.createElement('p');
+    const flwg = document.createElement('p');
+    const bio = document.createElement('p');
+
+    card.appendChild(img);
+    card.appendChild(cardinfo);
+    cardinfo.appendChild(name);
+    cardinfo.appendChild(uname);
+    cardinfo.appendChild(loc);
+    cardinfo.appendChild(prof);
+    cardinfo.appendChild(anchor);
+    cardinfo.appendChild(flwr);
+    cardinfo.appendChild(flwg);
+    cardinfo.appendChild(bio);
+
+    card.classList.add('card');
+    cardinfo.classList.add('card-info');
+    name.classList.add('username');
+
+    img.src = data.avatar_url;
+    name.textContent = data.name;
+    uname.textContent = data.login;
+    loc.textContent = `Location:` + data.location;
+    //prof.textContent = "Profile: ";
+    anchor.textContent = `Profile: ` + data.html_url;
+    flwr.textContent = `Followers: ` + data.followers;
+    flwg.textContent = `Following: ` + data.following;
+    bio.textContent = `Bio: ` + data.bio;
+
+
+    return card;
+
+}
+
+
 
 /* List of LS Instructors Github username's: 
   tetondan
