@@ -56,7 +56,7 @@ followersArray.forEach(user => {
 
 
 const cards = document.querySelector('.cards');
-console.log(cards);
+//console.log(cards);
 
 // followersArray.forEach(data => {
 //     cards.appendChild(createCard(data));
@@ -111,12 +111,12 @@ function createCard(data) {
     img.src = data.avatar_url;
     name.textContent = data.name;
     uname.textContent = data.login;
-    loc.textContent = data.location;
-    prof.textContent = "Profile: ";
-    anchor.textContent = data.html_url;
-    flwr.textContent = data.followers;
-    flwg.textContent = data.following;
-    bio.textContent = data.bio;
+    loc.textContent = `Location:` + data.location;
+    //prof.textContent = "Profile: ";
+    anchor.textContent = `Profile: ` + data.html_url;
+    flwr.textContent = `Followers: ` + data.followers;
+    flwg.textContent = `Following: ` + data.following;
+    bio.textContent = `Bio: ` + data.bio;
 
 
     return card;
