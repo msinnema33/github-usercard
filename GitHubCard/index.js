@@ -44,7 +44,7 @@ const followersArray = [
 ];
 
 followersArray.forEach(user => {
-    axios.get('https://api.github.com/users/${user}')
+    axios.get(`https://api.github.com/users/${user}`)
         .then(e => {
             const card = createCard(e.data);
             const cards = document.querySelector('.cards');
