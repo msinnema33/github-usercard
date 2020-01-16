@@ -23,8 +23,44 @@
           Using that array, iterate over it, requesting data for each user, creating a new card for each
           user, and adding that card to the DOM.
 */
+axios.get('https://api.github.com/users/msinnema33')
+    .then(e => {
+        //console.log('data: ', data);
+        const myInfo = e.data;
+        //console.log('User info: ', myInfo);
 
-const followersArray = [];
+        const cards = document.querySelector('.cards');
+        const card = createCard(myInfo);
+        cards.appendChild(card);
+    })
+
+
+const followersArray = [
+    'elijahdaniel',
+    'GuytonOriji',
+    'fireblastdaniel',
+    'shawnpatel96',
+    'rofstudios',
+];
+
+followersArray.forEach(user => {
+    axios.get('https://api.github.com/users/${user}')
+        .then(e => {
+            const card = createCard(e.data);
+            const cards = document.querySelector('.cards');
+            cards.appendChild(card);
+        })
+
+})
+
+
+
+const cards = document.querySelector('.cards');
+console.log(cards);
+
+// followersArray.forEach(data => {
+//     cards.appendChild(createCard(data));
+// });
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
@@ -44,11 +80,11 @@ const followersArray = [];
   </div>
 </div>
 */
-function createCard(followersArray) {
+function createCard(data) {
     const card = document.createElement('div');
-    const imgsrc = document.createElement('img');
-    const info = document.createElement('div');
-    const head3 = document.createElement('h3');
+    const img = document.createElement('img');
+    const cardinfo = document.createElement('div');
+    const name = document.createElement('h3');
     const uname = document.createElement('p');
     const loc = document.createElement('p');
     const prof = document.createElement('p');
@@ -57,29 +93,30 @@ function createCard(followersArray) {
     const flwg = document.createElement('p');
     const bio = document.createElement('p');
 
-    card.appendChild(imgsrc);
-    card.appendChild('info');
-    card.appendChild(head3);
-    card.appendChild(uname);
-    card.appendChild(loc);
-    card.appendChild(prof);
-    prof.appendChild(anchor);
-    card.appendChild(flwr);
-    card.appendChild(flwg);
-    card.appendChild(bio);
+    card.appendChild(img);
+    card.appendChild(cardinfo);
+    cardinfo.appendChild(name);
+    cardinfo.appendChild(uname);
+    cardinfo.appendChild(loc);
+    cardinfo.appendChild(prof);
+    cardinfo.appendChild(anchor);
+    cardinfo.appendChild(flwr);
+    cardinfo.appendChild(flwg);
+    cardinfo.appendChild(bio);
 
     card.classList.add('card');
-    card.classList.add('card-info');
-    card.classList.add('username');
+    cardinfo.classList.add('card-info');
+    name.classList.add('username');
 
-    head3.textContent = name;
-    uname.textContent = login;
-    loc.textContent = location;
-    prof.textContent = "Profile:"
-    anchor.textContent = html_url;
-    flwr.textContent = followers;
-    flwg.textContent = following;
-    bio.textContent = bio;
+    img.src = data.avatar_url;
+    name.textContent = data.name;
+    uname.textContent = data.login;
+    loc.textContent = data.location;
+    prof.textContent = "Profile: ";
+    anchor.textContent = data.html_url;
+    flwr.textContent = data.followers;
+    flwg.textContent = data.following;
+    bio.textContent = data.bio;
 
 
     return card;
